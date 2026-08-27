@@ -216,3 +216,28 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Nummaria Veritas project-specific
+
+# Local / generated datasets
+data/raw/
+data/processed/
+data/cache/
+
+# Experiment outputs and runtime logs
+experiments/outputs/
+logs/
+
+# Generated model / retrieval artifacts
+models/
+artifacts/
+vector_store/
+
+# Common vector index files
+*.faiss
+*.index
+
+# Local editor / OS files
+.DS_Store
+.vscode/
+.idea/
