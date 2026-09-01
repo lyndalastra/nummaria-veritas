@@ -73,3 +73,29 @@ class VerificationResult(BaseModel):
     contradictory_evidence: list[Evidence] = Field(default_factory=list)
     explanation: str
     claim_delta: ClaimDelta | None = None
+
+
+class Page(BaseModel):
+    document_id: str
+    page_number: int
+    text: str
+
+
+class Chunk(BaseModel):
+    chunk_id: str
+    document_id: str
+    page_number: int
+    chunk_index: int
+    text: str
+
+
+class IngestedChunk(BaseModel):
+    chunk_id: str
+    document_id: str
+    company: str
+    document_type: str
+    reporting_period: str
+    publication_date: date
+    page_number: int
+    chunk_index: int
+    text: str

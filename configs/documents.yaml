@@ -1,0 +1,42 @@
+documents:
+  - document_id: hsbc_fy_2024_annual_report
+    company: HSBC
+    document_type: annual_report
+    reporting_period: FY2024
+    publication_date: 2025-02-19
+    source_path: data/raw/hsbc/fy_2024/250219-annual-report-and-accounts-2024.pdf
+
+  - document_id: hsbc_h1_2025_interim_report
+    company: HSBC
+    document_type: interim_report
+    reporting_period: H1_2025
+    publication_date: 2025-07-30
+    source_path: data/raw/hsbc/h1_2025/250730-hsbc-holdings-plc-interim-report-2025.pdf
+
+  - document_id: az_fy_2024_results_announcement
+    company: AstraZeneca
+    document_type: results_announcement
+    reporting_period: FY2024
+    publication_date: 2025-02-06
+    source_path: data/raw/astrazeneca/fy_2024/Full-year-and-Q4-2024-results-announcement.pdf
+
+  - document_id: az_fy_2024_results_presentation
+    company: AstraZeneca
+    document_type: results_presentation
+    reporting_period: FY2024
+    publication_date: 2025-02-06
+    source_path: data/raw/astrazeneca/fy_2024/Full-year-and-Q4-2024-results-presentation.pdf
+
+  - document_id: az_h1_2025_results_announcement
+    company: AstraZeneca
+    document_type: results_announcement
+    reporting_period: H1_2025
+    publication_date: 2025-07-29
+    source_path: data/raw/astrazeneca/h1_2025/H1-and-Q2-2025-results-announcement.pdf
+
+  - document_id: az_h1_2025_results_presentation
+    company: AstraZeneca
+    document_type: results_presentation
+    reporting_period: H1_2025
+    publication_date: 2025-07-29
+    source_path: data/raw/astrazeneca/h1_2025/H1-and-Q2-2025-results-presentation.pdf
