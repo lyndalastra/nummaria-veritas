@@ -125,6 +125,7 @@ class AtomicClaim(BaseModel):
     text: str
     proposition_type: PropositionType
     dependency_ids: list[str] = Field(default_factory=list)
+    is_causal: bool = False
 
 
 class ClaimDecomposition(BaseModel):
@@ -141,3 +142,34 @@ class ClaimEvidenceBundle(BaseModel):
     claim: Claim
     decomposition: ClaimDecomposition
     atomic_evidence: list[AtomicEvidenceBundle] = Field(default_factory=list)
+
+
+class AtomicVerificationResult(BaseModel):
+    atomic_claim_id: str
+    verdict: Verdict
+    claim_issues: list[ClaimIssue] = Field(default_factory=list)
+    evidence_issues: list[EvidenceIssue] = Field(default_factory=list)
+    supporting_evidence: list[EvidenceResult] = Field(default_factory=list)
+    contradictory_evidence: list[EvidenceResult] = Field(default_factory=list)
+    explanation: str
+
+
+class ClaimVerification(BaseModel):
+    claim_id: str
+    atomic_results: list[AtomicVerificationResult] = Field(default_factory=list)
+    verdict: Verdict
+    claim_issues: list[ClaimIssue] = Field(default_factory=list)
+    evidence_issues: list[EvidenceIssue] = Field(default_factory=list)
+    explanation: str
+
+
+class EvidenceStance(str, Enum):
+    SUPPORTS = "supports"
+    CONTRADICTS = "contradicts"
+    NEUTRAL = "neutral"
+
+
+class EvidenceAssessment(BaseModel):
+    evidence: EvidenceResult
+    stance: EvidenceStance
+    explanation: str
