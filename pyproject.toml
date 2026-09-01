@@ -31,5 +31,12 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.16.5",
+    "scipy-stubs>=1.18.1.0",
     "types-pyyaml>=6.0.12.20260815",
 ]
+
+[[tool.mypy.overrides]]
+module = [
+    "sklearn.*",
+]
+ignore_missing_imports = true

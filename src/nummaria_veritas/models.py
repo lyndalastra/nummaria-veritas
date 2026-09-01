@@ -99,3 +99,45 @@ class IngestedChunk(BaseModel):
     page_number: int
     chunk_index: int
     text: str
+
+
+class EvidenceResult(BaseModel):
+    chunk_id: str
+    document_id: str
+    company: str
+    document_type: str
+    reporting_period: str
+    publication_date: date
+    page_number: int
+    text: str
+    retrieval_score: float
+
+
+class PropositionType(str, Enum):
+    FACT = "fact"
+    RELATION = "relation"
+    INFERENCE = "inference"
+
+
+class AtomicClaim(BaseModel):
+    atomic_claim_id: str
+    parent_claim_id: str
+    text: str
+    proposition_type: PropositionType
+    dependency_ids: list[str] = Field(default_factory=list)
+
+
+class ClaimDecomposition(BaseModel):
+    parent_claim_id: str
+    atomic_claims: list[AtomicClaim] = Field(default_factory=list)
+
+
+class AtomicEvidenceBundle(BaseModel):
+    atomic_claim: AtomicClaim
+    evidence: list[EvidenceResult] = Field(default_factory=list)
+
+
+class ClaimEvidenceBundle(BaseModel):
+    claim: Claim
+    decomposition: ClaimDecomposition
+    atomic_evidence: list[AtomicEvidenceBundle] = Field(default_factory=list)
