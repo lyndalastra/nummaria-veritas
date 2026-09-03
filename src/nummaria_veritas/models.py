@@ -173,3 +173,30 @@ class EvidenceAssessment(BaseModel):
     evidence: EvidenceResult
     stance: EvidenceStance
     explanation: str
+
+
+class CorrectionStatus(str, Enum):
+    NO_CHANGE_REQUIRED = "no_change_required"
+    CORRECTION_MISSING = "correction_missing"
+    CORRECTION_AVAILABLE = "correction_available"
+    CORRECTION_STATE_CHANGED = "correction_state_changed"
+    INVALID_CORRECTION = "invalid_correction"
+
+
+class ClaimDeltaRecord(BaseModel):
+    claim_id: str
+    status: CorrectionStatus
+    delta: ClaimDelta | None = None
+    explanation: str
+
+
+class DeltaIssue(str, Enum):
+    ORIGINAL_CLAIM_MISMATCH = "original_claim_mismatch"
+    REVISED_CLAIM_MISMATCH = "revised_claim_mismatch"
+    CHANGE_DESCRIPTION_MISMATCH = "change_description_mismatch"
+
+
+class ClaimDeltaValidation(BaseModel):
+    is_valid: bool
+    issues: list[DeltaIssue] = Field(default_factory=list)
+    explanation: str
