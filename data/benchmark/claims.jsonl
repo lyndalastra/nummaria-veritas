@@ -6,6 +6,20 @@
 
 {"claim_id":"az_001","company":"AstraZeneca","text":"AstraZeneca's FY2024 Total Revenue increased by 21% at CER.","as_of_date":"2025-02-06","reporting_period":"FY2024","expected_verdict":"supported","expected_claim_issues":[],"expected_revised_claim":null}
 
+{"claim_id":"az_001_TMP_01","company":"AstraZeneca","text":"AstraZeneca's FY2024 Total Revenue increased by 21% at CER.","as_of_date":"2025-02-05","reporting_period":"FY2024","expected_verdict":"insufficient_evidence","expected_claim_issues":[],"expected_evidence_issues":[],"expected_revised_claim":null,"perturbation_type":"temporal","source_claim_id":"az_001"}
+
+{"claim_id":"az_001_NUM_01","company":"AstraZeneca","text":"AstraZeneca's FY2024 Total Revenue increased by 18% at CER.","as_of_date":"2025-02-06","reporting_period":"FY2024","expected_verdict":"contradicted","expected_claim_issues":["numerical_inconsistency"],"expected_evidence_issues":[],"expected_revised_claim":"AstraZeneca's FY2024 Total Revenue increased by 21% at CER.","perturbation_type":"numerical","source_claim_id":"az_001"}
+
+{"claim_id":"az_001_REP_01","company":"AstraZeneca","text":"AstraZeneca's FY2024 Total Revenue increased by 21.0% at CER.","as_of_date":"2025-02-06","reporting_period":"FY2024","expected_verdict":"supported","expected_claim_issues":[],"expected_evidence_issues":[],"expected_revised_claim":null,"perturbation_type":"representation","source_claim_id":"az_001"}
+
 {"claim_id":"az_002","company":"AstraZeneca","text":"AstraZeneca's FY2024 Gross Margin was 83%.","as_of_date":"2025-02-06","reporting_period":"FY2024","expected_verdict":"contradicted","expected_claim_issues":["metric_mismatch","numerical_inconsistency"],"expected_revised_claim":"AstraZeneca's FY2024 reported Product Sales Gross Margin was 80.0%."}
 
 {"claim_id":"az_003","company":"AstraZeneca","text":"AstraZeneca expected FY2025 Total Revenue to increase by a high single-digit percentage.","as_of_date":"2025-02-06","reporting_period":"FY2025","expected_verdict":"supported","expected_claim_issues":[],"expected_revised_claim":null}
+
+{"claim_id":"az_003_FCT_01","company":"AstraZeneca","text":"AstraZeneca's FY2025 Total Revenue increased by a high single-digit percentage.","as_of_date":"2025-02-06","reporting_period":"FY2025","expected_verdict":"partially_supported","expected_claim_issues":["forecast_as_fact"],"expected_evidence_issues":[],"expected_revised_claim":"AstraZeneca expected FY2025 Total Revenue to increase by a high single-digit percentage.","perturbation_type":"forecast_as_fact","source_claim_id":"az_003"}
+
+{"claim_id":"az_004","company":"AstraZeneca","text":"AstraZeneca's FY2024 Total Revenue increased by 21% at CER and Core EPS increased by 19%.","as_of_date":"2025-02-06","reporting_period":"FY2024","expected_verdict":"supported","expected_claim_issues":[],"expected_evidence_issues":[],"expected_revised_claim":null}
+
+{"claim_id":"az_004_CAU_01","company":"AstraZeneca","text":"AstraZeneca's FY2024 Core EPS increased by 19% because Total Revenue increased by 21% at CER.","as_of_date":"2025-02-06","reporting_period":"FY2024","expected_verdict":"partially_supported","expected_claim_issues":["causal_overclaim"],"expected_evidence_issues":[],"expected_revised_claim":"AstraZeneca's FY2024 Core EPS increased by 19% while Total Revenue increased by 21% at CER.","perturbation_type":"causal","source_claim_id":"az_004"}
+
+{"claim_id":"az_004_CMP_01","company":"AstraZeneca","text":"AstraZeneca's FY2024 Total Revenue increased by 21% at CER and Core EPS increased by 19%, meaning Core EPS growth exceeded Total Revenue growth.","as_of_date":"2025-02-06","reporting_period":"FY2024","expected_verdict":"partially_supported","expected_claim_issues":["compositional_invalidity"],"expected_evidence_issues":[],"expected_revised_claim":"AstraZeneca's FY2024 Total Revenue increased by 21% at CER and Core EPS increased by 19%, meaning Core EPS growth was lower than Total Revenue growth.","perturbation_type":"compositional","source_claim_id":"az_004"}

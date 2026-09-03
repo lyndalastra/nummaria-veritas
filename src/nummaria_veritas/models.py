@@ -20,6 +20,7 @@ class ClaimIssue(str, Enum):
     ENTITY_SCOPE_MISMATCH = "entity_scope_mismatch"
     FORECAST_AS_FACT = "forecast_as_fact"
     CAUSAL_OVERCLAIM = "causal_overclaim"
+    COMPOSITIONAL_INVALIDITY = "compositional_invalidity"
 
 
 class EvidenceIssue(str, Enum):
@@ -52,10 +53,27 @@ class Claim(BaseModel):
     reporting_period: str | None = None
 
 
+class PerturbationType(str, Enum):
+    NONE = "none"
+    NUMERICAL = "numerical"
+    METRIC = "metric"
+    PERIOD = "period"
+    SCOPE = "scope"
+    TEMPORAL = "temporal"
+    REPRESENTATION = "representation"
+    FORECAST_AS_FACT = "forecast_as_fact"
+    CAUSAL = "causal"
+    COMPOSITIONAL = "compositional"
+    ENTITY = "entity"
+
+
 class BenchmarkClaim(Claim):
     expected_verdict: Verdict
     expected_claim_issues: list[ClaimIssue] = Field(default_factory=list)
+    expected_evidence_issues: list[EvidenceIssue] = Field(default_factory=list)
     expected_revised_claim: str | None = None
+    perturbation_type: PerturbationType = PerturbationType.NONE
+    source_claim_id: str | None = None
 
 
 class ClaimDelta(BaseModel):
