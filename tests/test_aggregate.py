@@ -37,7 +37,10 @@ def _make_atomic_result(
             Verdict.SUPPORTED_CLAIM,
         ),
         (
-            [Verdict.SUPPORTED_CLAIM, Verdict.SUPPORTED_CLAIM],
+            [
+                Verdict.SUPPORTED_CLAIM,
+                Verdict.SUPPORTED_CLAIM,
+            ],
             Verdict.SUPPORTED_CLAIM,
         ),
         (
@@ -45,20 +48,40 @@ def _make_atomic_result(
             Verdict.CONTRADICTED_CLAIM,
         ),
         (
-            [Verdict.CONTRADICTED_CLAIM, Verdict.CONTRADICTED_CLAIM],
+            [
+                Verdict.CONTRADICTED_CLAIM,
+                Verdict.CONTRADICTED_CLAIM,
+            ],
             Verdict.CONTRADICTED_CLAIM,
         ),
         (
-            [Verdict.SUPPORTED_CLAIM, Verdict.CONTRADICTED_CLAIM],
+            [
+                Verdict.SUPPORTED_CLAIM,
+                Verdict.CONTRADICTED_CLAIM,
+            ],
             Verdict.PARTIALLY_SUPPORTED_CLAIM,
         ),
         (
-            [Verdict.SUPPORTED_CLAIM, Verdict.INSUFFICIENT_EVIDENCE],
+            [
+                Verdict.SUPPORTED_CLAIM,
+                Verdict.INSUFFICIENT_EVIDENCE,
+            ],
             Verdict.PARTIALLY_SUPPORTED_CLAIM,
         ),
         (
             [Verdict.UNSUPPORTED_CLAIM],
             Verdict.UNSUPPORTED_CLAIM,
+        ),
+        (
+            [Verdict.INVALID_EVIDENCE],
+            Verdict.INVALID_EVIDENCE,
+        ),
+        (
+            [
+                Verdict.INVALID_EVIDENCE,
+                Verdict.INVALID_EVIDENCE,
+            ],
+            Verdict.INVALID_EVIDENCE,
         ),
         (
             [Verdict.INSUFFICIENT_EVIDENCE],

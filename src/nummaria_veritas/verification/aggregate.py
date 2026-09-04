@@ -23,6 +23,9 @@ def aggregate_claim_verification(
     if verdicts == {Verdict.SUPPORTED_CLAIM}:
         verdict = Verdict.SUPPORTED_CLAIM
 
+    elif verdicts == {Verdict.INVALID_EVIDENCE}:
+        verdict = Verdict.INVALID_EVIDENCE
+
     elif Verdict.CONTRADICTED_CLAIM in verdicts:
         if len(verdicts) == 1:
             verdict = Verdict.CONTRADICTED_CLAIM

@@ -145,7 +145,7 @@ class EvidenceResult(BaseModel):
     publication_date: date
     page_number: int
     text: str
-    retrieval_score: float
+    retrieval_score: float | None = None
 
 
 class PropositionType(str, Enum):
