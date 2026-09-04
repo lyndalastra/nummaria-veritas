@@ -63,17 +63,14 @@ def test_supported_claims_do_not_have_revisions() -> None:
     assert all(claim.expected_revised_claim is None for claim in supported_claims)
 
 
-def test_supported_claims_do_not_have_expected_issues() -> None:
+def test_supported_claims_do_not_have_claim_issues() -> None:
     claims = load_benchmark(BENCHMARK_PATH)
 
     supported_claims = [
         claim for claim in claims if claim.expected_verdict == Verdict.SUPPORTED_CLAIM
     ]
 
-    assert all(
-        not claim.expected_claim_issues and not claim.expected_evidence_issues
-        for claim in supported_claims
-    )
+    assert all(not claim.expected_claim_issues for claim in supported_claims)
 
 
 def test_original_claims_do_not_have_perturbation_metadata() -> None:
@@ -201,3 +198,17 @@ def test_invalid_evidence_cases_have_expected_evidence_issues() -> None:
     ]
 
     assert all(claim.expected_evidence_issues for claim in invalid_evidence_cases)
+
+
+def test_redundancy_perturbations_use_multiple_evidence_items() -> None:
+    claims = load_benchmark(BENCHMARK_PATH)
+
+    redundancy_cases = [
+        claim
+        for claim in claims
+        if claim.perturbation_type == PerturbationType.REDUNDANCY
+    ]
+
+    assert redundancy_cases
+
+    assert all(len(claim.perturbed_evidence) > 1 for claim in redundancy_cases)

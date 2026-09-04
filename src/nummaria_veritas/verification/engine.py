@@ -1,3 +1,6 @@
+from nummaria_veritas.evidence.independence import (
+    assess_evidence_independence,
+)
 from nummaria_veritas.models import (
     AtomicClaim,
     AtomicVerificationResult,
@@ -61,6 +64,14 @@ def verify_atomic_claim(
         if assessment.stance == EvidenceStance.CONTRADICTS
     ]
 
+    independence_result = assess_evidence_independence(supporting_evidence)
+
+    evidence_issues.extend(
+        issue
+        for issue in independence_result.evidence_issues
+        if issue not in evidence_issues
+    )
+
     claim_issues: list[ClaimIssue] = list(causal_issues)
 
     if numerical_check == NumericalCheck.INCONSISTENT:
@@ -112,6 +123,14 @@ def verify_atomic_claim(
         explanation_parts.append(
             f"{future_count} evidence item(s) were excluded because "
             "they were published after the claim's as-of date."
+        )
+
+    if EvidenceIssue.EVIDENCE_REDUNDANCY in evidence_issues:
+        explanation_parts.append(
+            f"{independence_result.raw_evidence_count} supporting "
+            "evidence item(s) represent "
+            f"{independence_result.independent_evidence_count} "
+            "independent evidence source(s)."
         )
 
     if not admissible_evidence:
