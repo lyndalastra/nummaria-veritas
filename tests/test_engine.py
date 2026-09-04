@@ -1,7 +1,5 @@
 from datetime import date, timedelta
-
 from pathlib import Path
-
 
 from nummaria_veritas.evaluation.benchmark import load_benchmark
 from nummaria_veritas.evaluation.benchmark_runner import (
