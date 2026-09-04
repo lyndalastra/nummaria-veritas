@@ -20,26 +20,29 @@ def aggregate_claim_verification(
 
     verdicts = {result.verdict for result in atomic_results}
 
-    if verdicts == {Verdict.SUPPORTED}:
-        verdict = Verdict.SUPPORTED
+    if verdicts == {Verdict.SUPPORTED_CLAIM}:
+        verdict = Verdict.SUPPORTED_CLAIM
 
-    elif Verdict.CONTRADICTED in verdicts:
+    elif Verdict.CONTRADICTED_CLAIM in verdicts:
         if len(verdicts) == 1:
-            verdict = Verdict.CONTRADICTED
+            verdict = Verdict.CONTRADICTED_CLAIM
         else:
-            verdict = Verdict.PARTIALLY_SUPPORTED
+            verdict = Verdict.PARTIALLY_SUPPORTED_CLAIM
 
-    elif Verdict.PARTIALLY_SUPPORTED in verdicts or Verdict.SUPPORTED in verdicts:
-        verdict = Verdict.PARTIALLY_SUPPORTED
+    elif (
+        Verdict.PARTIALLY_SUPPORTED_CLAIM in verdicts
+        or Verdict.SUPPORTED_CLAIM in verdicts
+    ):
+        verdict = Verdict.PARTIALLY_SUPPORTED_CLAIM
 
-    elif verdicts == {Verdict.UNSUPPORTED}:
-        verdict = Verdict.UNSUPPORTED
+    elif verdicts == {Verdict.UNSUPPORTED_CLAIM}:
+        verdict = Verdict.UNSUPPORTED_CLAIM
 
     elif verdicts == {Verdict.INSUFFICIENT_EVIDENCE}:
         verdict = Verdict.INSUFFICIENT_EVIDENCE
 
     else:
-        verdict = Verdict.PARTIALLY_SUPPORTED
+        verdict = Verdict.PARTIALLY_SUPPORTED_CLAIM
 
     claim_issues = list(
         dict.fromkeys(

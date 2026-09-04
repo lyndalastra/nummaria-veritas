@@ -33,32 +33,32 @@ def _make_atomic_result(
     ("atomic_verdicts", "expected_parent_verdict"),
     [
         (
-            [Verdict.SUPPORTED],
-            Verdict.SUPPORTED,
+            [Verdict.SUPPORTED_CLAIM],
+            Verdict.SUPPORTED_CLAIM,
         ),
         (
-            [Verdict.SUPPORTED, Verdict.SUPPORTED],
-            Verdict.SUPPORTED,
+            [Verdict.SUPPORTED_CLAIM, Verdict.SUPPORTED_CLAIM],
+            Verdict.SUPPORTED_CLAIM,
         ),
         (
-            [Verdict.CONTRADICTED],
-            Verdict.CONTRADICTED,
+            [Verdict.CONTRADICTED_CLAIM],
+            Verdict.CONTRADICTED_CLAIM,
         ),
         (
-            [Verdict.CONTRADICTED, Verdict.CONTRADICTED],
-            Verdict.CONTRADICTED,
+            [Verdict.CONTRADICTED_CLAIM, Verdict.CONTRADICTED_CLAIM],
+            Verdict.CONTRADICTED_CLAIM,
         ),
         (
-            [Verdict.SUPPORTED, Verdict.CONTRADICTED],
-            Verdict.PARTIALLY_SUPPORTED,
+            [Verdict.SUPPORTED_CLAIM, Verdict.CONTRADICTED_CLAIM],
+            Verdict.PARTIALLY_SUPPORTED_CLAIM,
         ),
         (
-            [Verdict.SUPPORTED, Verdict.INSUFFICIENT_EVIDENCE],
-            Verdict.PARTIALLY_SUPPORTED,
+            [Verdict.SUPPORTED_CLAIM, Verdict.INSUFFICIENT_EVIDENCE],
+            Verdict.PARTIALLY_SUPPORTED_CLAIM,
         ),
         (
-            [Verdict.UNSUPPORTED],
-            Verdict.UNSUPPORTED,
+            [Verdict.UNSUPPORTED_CLAIM],
+            Verdict.UNSUPPORTED_CLAIM,
         ),
         (
             [Verdict.INSUFFICIENT_EVIDENCE],
@@ -90,14 +90,14 @@ def test_parent_aggregates_claim_issues_without_duplicates() -> None:
     atomic_results = [
         _make_atomic_result(
             atomic_claim_id="atomic_a",
-            verdict=Verdict.PARTIALLY_SUPPORTED,
+            verdict=Verdict.PARTIALLY_SUPPORTED_CLAIM,
             claim_issues=[
                 ClaimIssue.CAUSAL_OVERCLAIM,
             ],
         ),
         _make_atomic_result(
             atomic_claim_id="atomic_b",
-            verdict=Verdict.PARTIALLY_SUPPORTED,
+            verdict=Verdict.PARTIALLY_SUPPORTED_CLAIM,
             claim_issues=[
                 ClaimIssue.CAUSAL_OVERCLAIM,
                 ClaimIssue.NUMERICAL_INCONSISTENCY,

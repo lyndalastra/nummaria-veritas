@@ -57,7 +57,7 @@ def _make_verification(
     return ClaimVerification(
         claim_id=claim_id,
         atomic_results=[],
-        verdict=Verdict.CONTRADICTED,
+        verdict=Verdict.CONTRADICTED_CLAIM,
         claim_issues=([ClaimIssue.NUMERICAL_INCONSISTENCY] if numerical_issue else []),
         explanation="verification",
     )

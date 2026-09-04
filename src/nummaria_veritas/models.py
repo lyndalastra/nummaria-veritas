@@ -5,10 +5,12 @@ from pydantic import BaseModel, Field
 
 
 class Verdict(str, Enum):
-    SUPPORTED = "supported"
-    PARTIALLY_SUPPORTED = "partially_supported"
-    CONTRADICTED = "contradicted"
-    UNSUPPORTED = "unsupported"
+    SUPPORTED_CLAIM = "supported_claim"
+    PARTIALLY_SUPPORTED_CLAIM = "partially_supported_claim"
+    CONTRADICTED_CLAIM = "contradicted_claim"
+    UNSUPPORTED_CLAIM = "unsupported_claim"
+
+    INVALID_EVIDENCE = "invalid_evidence"
     INSUFFICIENT_EVIDENCE = "insufficient_evidence"
 
 
@@ -27,6 +29,7 @@ class EvidenceIssue(str, Enum):
     TEMPORAL_LEAKAGE = "temporal_leakage"
     EVIDENCE_REDUNDANCY = "evidence_redundancy"
     CONTRADICTORY_EVIDENCE = "contradictory_evidence"
+    SCOPE_MISMATCH = "scope_mismatch"
 
 
 class Document(BaseModel):
@@ -65,6 +68,18 @@ class PerturbationType(str, Enum):
     CAUSAL = "causal"
     COMPOSITIONAL = "compositional"
     ENTITY = "entity"
+    REDUNDANCY = "redundancy"
+
+
+class PerturbationTarget(str, Enum):
+    CLAIM = "claim"
+    EVIDENCE = "evidence"
+    EVALUATION_CONTEXT = "evaluation_context"
+
+
+class PerturbedEvidence(BaseModel):
+    chunk_id: str
+    summary: str
 
 
 class BenchmarkClaim(Claim):
@@ -73,7 +88,9 @@ class BenchmarkClaim(Claim):
     expected_evidence_issues: list[EvidenceIssue] = Field(default_factory=list)
     expected_revised_claim: str | None = None
     perturbation_type: PerturbationType = PerturbationType.NONE
+    perturbation_target: PerturbationTarget | None = None
     source_claim_id: str | None = None
+    perturbed_evidence: list[PerturbedEvidence] = Field(default_factory=list)
 
 
 class ClaimDelta(BaseModel):

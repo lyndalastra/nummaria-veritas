@@ -67,19 +67,19 @@ def verify_atomic_claim(
         claim_issues.append(ClaimIssue.NUMERICAL_INCONSISTENCY)
 
     if contradictory_evidence:
-        verdict = Verdict.CONTRADICTED
+        verdict = Verdict.CONTRADICTED_CLAIM
 
     elif supporting_evidence and claim_issues:
-        verdict = Verdict.PARTIALLY_SUPPORTED
+        verdict = Verdict.PARTIALLY_SUPPORTED_CLAIM
 
     elif supporting_evidence:
-        verdict = Verdict.SUPPORTED
+        verdict = Verdict.SUPPORTED_CLAIM
 
     elif not admissible_evidence:
         verdict = Verdict.INSUFFICIENT_EVIDENCE
 
     else:
-        verdict = Verdict.UNSUPPORTED
+        verdict = Verdict.UNSUPPORTED_CLAIM
 
     explanation_parts: list[str] = []
 

@@ -73,7 +73,7 @@ def test_supporting_evidence_produces_supported_verdict() -> None:
         assessments=assessments,
     )
 
-    assert result.verdict == Verdict.SUPPORTED
+    assert result.verdict == Verdict.SUPPORTED_CLAIM
     assert result.supporting_evidence == [evidence]
     assert result.contradictory_evidence == []
     assert result.explanation
@@ -101,7 +101,7 @@ def test_contradictory_evidence_produces_contradicted_verdict() -> None:
         assessments=assessments,
     )
 
-    assert result.verdict == Verdict.CONTRADICTED
+    assert result.verdict == Verdict.CONTRADICTED_CLAIM
     assert result.supporting_evidence == []
     assert result.contradictory_evidence == [evidence]
     assert result.explanation
@@ -132,7 +132,7 @@ def test_neutral_evidence_produces_unsupported_verdict() -> None:
         assessments=assessments,
     )
 
-    assert result.verdict == Verdict.UNSUPPORTED
+    assert result.verdict == Verdict.UNSUPPORTED_CLAIM
     assert result.supporting_evidence == []
     assert result.contradictory_evidence == []
     assert result.explanation
@@ -184,7 +184,7 @@ def test_future_supporting_evidence_is_flagged_as_temporal_leakage() -> None:
 
     # Semantically supportive but temporally inadmissible evidence
     # must not establish a supported verdict.
-    assert result.verdict != Verdict.SUPPORTED
+    assert result.verdict != Verdict.SUPPORTED_CLAIM
 
 
 def test_unsupported_causal_inference_is_flagged_by_engine() -> None:
@@ -220,4 +220,4 @@ def test_unsupported_causal_inference_is_flagged_by_engine() -> None:
     )
 
     assert ClaimIssue.CAUSAL_OVERCLAIM in result.claim_issues
-    assert result.verdict != Verdict.SUPPORTED
+    assert result.verdict != Verdict.SUPPORTED_CLAIM

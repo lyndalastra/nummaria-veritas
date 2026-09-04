@@ -43,7 +43,7 @@ def test_supported_claim_without_delta_requires_no_change() -> None:
         claim=claim,
         verification=_make_verification(
             claim_id=claim.claim_id,
-            verdict=Verdict.SUPPORTED,
+            verdict=Verdict.SUPPORTED_CLAIM,
         ),
     )
 
@@ -60,7 +60,7 @@ def test_unsupported_claim_without_delta_is_missing_correction() -> None:
         claim=claim,
         verification=_make_verification(
             claim_id=claim.claim_id,
-            verdict=Verdict.UNSUPPORTED,
+            verdict=Verdict.UNSUPPORTED_CLAIM,
         ),
     )
 
@@ -87,7 +87,7 @@ def test_supported_claim_with_stored_delta_flags_state_change() -> None:
         claim=claim,
         verification=_make_verification(
             claim_id=claim.claim_id,
-            verdict=Verdict.SUPPORTED,
+            verdict=Verdict.SUPPORTED_CLAIM,
         ),
     )
 
@@ -114,7 +114,7 @@ def test_claim_requiring_correction_with_stored_delta_is_available() -> None:
         claim=claim,
         verification=_make_verification(
             claim_id=claim.claim_id,
-            verdict=Verdict.CONTRADICTED,
+            verdict=Verdict.CONTRADICTED_CLAIM,
         ),
     )
 

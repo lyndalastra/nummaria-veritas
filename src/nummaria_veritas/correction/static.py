@@ -24,7 +24,7 @@ class StaticClaimDeltaGenerator(ClaimDeltaGenerator):
     ) -> ClaimDeltaRecord:
         delta = self.deltas.get(claim.claim_id)
 
-        if verification.verdict == Verdict.SUPPORTED:
+        if verification.verdict == Verdict.SUPPORTED_CLAIM:
             if delta is None:
                 return ClaimDeltaRecord(
                     claim_id=claim.claim_id,

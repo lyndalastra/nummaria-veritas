@@ -81,4 +81,4 @@ def test_verification_pipeline_returns_parent_verdict() -> None:
 
     assert result.claim_id == claim.claim_id
     assert len(result.atomic_results) == len(atomic_claims)
-    assert result.verdict == Verdict.SUPPORTED
+    assert result.verdict == Verdict.SUPPORTED_CLAIM
