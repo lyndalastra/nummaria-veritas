@@ -1,5 +1,8 @@
+import logging
+
 from fastapi import FastAPI
 
+from nummaria_veritas.api.logging import configure_logging
 from nummaria_veritas.api.models import (
     AtomicVerificationOutput,
     EvidenceOutput,
@@ -16,9 +19,12 @@ from nummaria_veritas.models import (
 )
 from nummaria_veritas.verification.pipeline import verify_claim
 
+configure_logging()
+logger = logging.getLogger(__name__)
+
 app = FastAPI(
     title="Nummaria Veritas",
-    description=("Evidence-integrity verification for financial AI claims."),
+    description="Evidence-integrity verification for financial AI claims.",
     version="0.1.0",
 )
 
@@ -38,6 +44,13 @@ def health() -> HealthResponse:
     response_model=VerifyResponse,
 )
 def verify(request: VerifyRequest) -> VerifyResponse:
+    logger.info(
+        "Verifying claim claim_id=%s company=%s atomic_claims=%d",
+        request.claim_id,
+        request.company,
+        len(request.atomic_claims),
+    )
+
     claim = Claim(
         claim_id=request.claim_id,
         company=request.company,
@@ -88,7 +101,7 @@ def verify(request: VerifyRequest) -> VerifyResponse:
             EvidenceAssessment(
                 evidence=evidence_result,
                 stance=evidence_input.stance,
-                explanation=(evidence_input.assessment_explanation),
+                explanation=evidence_input.assessment_explanation,
             )
             for evidence_input, evidence_result in zip(
                 atomic_input.evidence,
@@ -101,6 +114,15 @@ def verify(request: VerifyRequest) -> VerifyResponse:
         claim=claim,
         atomic_evidence=atomic_evidence,
         assessments_by_atomic_claim=assessments_by_atomic_claim,
+    )
+
+    logger.info(
+        "Verification completed claim_id=%s verdict=%s "
+        "claim_issues=%d evidence_issues=%d",
+        result.claim_id,
+        result.verdict.value,
+        len(result.claim_issues),
+        len(result.evidence_issues),
     )
 
     return VerifyResponse(
