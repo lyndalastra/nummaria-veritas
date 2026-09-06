@@ -1,4 +1,5 @@
 from nummaria_veritas.evidence.independence import (
+    EvidenceIndependenceResult,
     assess_evidence_independence,
 )
 from nummaria_veritas.models import (
@@ -8,10 +9,15 @@ from nummaria_veritas.models import (
     ClaimIssue,
     EvidenceAssessment,
     EvidenceIssue,
+    EvidenceResult,
     EvidenceStance,
     Verdict,
 )
 from nummaria_veritas.verification.causal import check_causal_overclaim
+from nummaria_veritas.verification.config import (
+    FULL_VERIFICATION_CONFIG,
+    VerificationConfig,
+)
 from nummaria_veritas.verification.numerical import (
     NumericalCheck,
     check_numerical_consistency,
@@ -26,36 +32,60 @@ def verify_atomic_claim(
     claim: Claim,
     atomic_claim: AtomicClaim,
     assessments: list[EvidenceAssessment],
+    config: VerificationConfig = FULL_VERIFICATION_CONFIG,
 ) -> AtomicVerificationResult:
     all_evidence = [assessment.evidence for assessment in assessments]
 
-    evidence_issues = check_temporal_validity(
-        claim=claim,
-        evidence=all_evidence,
-    )
+    if config.check_temporal_validity:
+        evidence_issues = check_temporal_validity(
+            claim=claim,
+            evidence=all_evidence,
+        )
 
-    admissible_assessments = [
-        assessment
-        for assessment in assessments
-        if assessment.evidence.publication_date <= claim.as_of_date
-    ]
+        admissible_assessments = [
+            assessment
+            for assessment in assessments
+            if assessment.evidence.publication_date <= claim.as_of_date
+        ]
+    else:
+        evidence_issues = []
+        admissible_assessments = list(assessments)
 
     admissible_evidence = [assessment.evidence for assessment in admissible_assessments]
 
-    numerical_check = check_numerical_consistency(
-        claim_text=atomic_claim.text,
-        evidence=admissible_evidence,
+    numerical_check = (
+        check_numerical_consistency(
+            claim_text=atomic_claim.text,
+            evidence=admissible_evidence,
+        )
+        if config.check_numerical_consistency
+        else NumericalCheck.CONSISTENT
     )
 
-    causal_issues = check_causal_overclaim(
-        atomic_claim=atomic_claim,
-        assessments=admissible_assessments,
+    causal_issues = (
+        check_causal_overclaim(
+            atomic_claim=atomic_claim,
+            assessments=admissible_assessments,
+        )
+        if config.check_causal_overclaim
+        else []
     )
 
-    supporting_evidence = [
+    fully_supporting_evidence = [
         assessment.evidence
         for assessment in admissible_assessments
         if assessment.stance == EvidenceStance.SUPPORTS
+    ]
+
+    partially_supporting_evidence = [
+        assessment.evidence
+        for assessment in admissible_assessments
+        if assessment.stance == EvidenceStance.PARTIALLY_SUPPORTS
+    ]
+
+    supporting_evidence = [
+        *fully_supporting_evidence,
+        *partially_supporting_evidence,
     ]
 
     contradictory_evidence = [
@@ -64,7 +94,10 @@ def verify_atomic_claim(
         if assessment.stance == EvidenceStance.CONTRADICTS
     ]
 
-    independence_result = assess_evidence_independence(supporting_evidence)
+    independence_result = _assess_independence(
+        supporting_evidence=supporting_evidence,
+        config=config,
+    )
 
     evidence_issues.extend(
         issue
@@ -80,10 +113,10 @@ def verify_atomic_claim(
     if contradictory_evidence:
         verdict = Verdict.CONTRADICTED_CLAIM
 
-    elif supporting_evidence and claim_issues:
+    elif partially_supporting_evidence or fully_supporting_evidence and claim_issues:
         verdict = Verdict.PARTIALLY_SUPPORTED_CLAIM
 
-    elif supporting_evidence:
+    elif fully_supporting_evidence:
         verdict = Verdict.SUPPORTED_CLAIM
 
     elif not admissible_evidence:
@@ -94,9 +127,16 @@ def verify_atomic_claim(
 
     explanation_parts: list[str] = []
 
-    if supporting_evidence:
+    if fully_supporting_evidence:
         explanation_parts.append(
-            f"{len(supporting_evidence)} admissible supporting evidence item(s) found."
+            f"{len(fully_supporting_evidence)} admissible fully supporting "
+            "evidence item(s) found."
+        )
+
+    if partially_supporting_evidence:
+        explanation_parts.append(
+            f"{len(partially_supporting_evidence)} admissible partially "
+            "supporting evidence item(s) found."
         )
 
     if contradictory_evidence:
@@ -151,4 +191,20 @@ def verify_atomic_claim(
         supporting_evidence=supporting_evidence,
         contradictory_evidence=contradictory_evidence,
         explanation=" ".join(explanation_parts),
+    )
+
+
+def _assess_independence(
+    *,
+    supporting_evidence: list[EvidenceResult],
+    config: VerificationConfig,
+) -> EvidenceIndependenceResult:
+    if config.check_evidence_independence:
+        return assess_evidence_independence(supporting_evidence)
+
+    return EvidenceIndependenceResult(
+        clusters=(),
+        raw_evidence_count=len(supporting_evidence),
+        independent_evidence_count=len(supporting_evidence),
+        evidence_issues=(),
     )

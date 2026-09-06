@@ -149,6 +149,74 @@ def test_neutral_evidence_produces_unsupported_verdict() -> None:
     assert result.explanation
 
 
+def test_partially_supporting_evidence_produces_partial_verdict() -> None:
+    claim = _make_claim()
+    atomic_claim = _make_atomic_claim(claim.claim_id)
+
+    evidence = _make_evidence(
+        publication_date=claim.as_of_date,
+    )
+
+    assessments = [
+        EvidenceAssessment(
+            evidence=evidence,
+            stance=EvidenceStance.PARTIALLY_SUPPORTS,
+            explanation=(
+                "The evidence establishes part of the proposition "
+                "but not the proposition in full."
+            ),
+        )
+    ]
+
+    result = verify_atomic_claim(
+        claim=claim,
+        atomic_claim=atomic_claim,
+        assessments=assessments,
+    )
+
+    assert result.verdict == Verdict.PARTIALLY_SUPPORTED_CLAIM
+    assert result.supporting_evidence == [evidence]
+    assert result.contradictory_evidence == []
+    assert result.explanation
+
+
+def test_partially_supported_claim_with_unestablished_causal_link_is_flagged() -> None:
+    claim = _make_claim()
+
+    atomic_claim = AtomicClaim(
+        atomic_claim_id=f"{claim.claim_id}_atomic",
+        parent_claim_id=claim.claim_id,
+        text="atomic_claim",
+        proposition_type=PropositionType.RELATION,
+        is_causal=True,
+    )
+
+    evidence = _make_evidence(
+        publication_date=claim.as_of_date,
+    )
+
+    assessments = [
+        EvidenceAssessment(
+            evidence=evidence,
+            stance=EvidenceStance.PARTIALLY_SUPPORTS,
+            explanation=(
+                "The evidence establishes the underlying facts but "
+                "does not establish the asserted causal relationship."
+            ),
+        )
+    ]
+
+    result = verify_atomic_claim(
+        claim=claim,
+        atomic_claim=atomic_claim,
+        assessments=assessments,
+    )
+
+    assert result.verdict == Verdict.PARTIALLY_SUPPORTED_CLAIM
+    assert ClaimIssue.CAUSAL_OVERCLAIM in result.claim_issues
+    assert result.supporting_evidence == [evidence]
+
+
 def test_no_evidence_produces_insufficient_evidence_verdict() -> None:
     claim = _make_claim()
     atomic_claim = _make_atomic_claim(claim.claim_id)
@@ -198,14 +266,14 @@ def test_future_supporting_evidence_is_flagged_as_temporal_leakage() -> None:
     assert result.verdict != Verdict.SUPPORTED_CLAIM
 
 
-def test_unsupported_causal_inference_is_flagged_by_engine() -> None:
+def test_unestablished_causal_relationship_is_flagged_by_engine() -> None:
     claim = _make_claim()
 
     atomic_claim = AtomicClaim(
         atomic_claim_id=f"{claim.claim_id}_atomic",
         parent_claim_id=claim.claim_id,
         text="atomic_claim",
-        proposition_type=PropositionType.INFERENCE,
+        proposition_type=PropositionType.RELATION,
         is_causal=True,
     )
 

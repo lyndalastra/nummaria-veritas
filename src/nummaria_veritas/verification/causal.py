@@ -14,11 +14,11 @@ def check_causal_overclaim(
     if not atomic_claim.is_causal:
         return []
 
-    has_support = any(
+    has_causal_support = any(
         assessment.stance == EvidenceStance.SUPPORTS for assessment in assessments
     )
 
-    if has_support:
+    if has_causal_support:
         return []
 
     return [ClaimIssue.CAUSAL_OVERCLAIM]

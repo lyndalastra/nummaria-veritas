@@ -7,6 +7,10 @@ from nummaria_veritas.models import (
 from nummaria_veritas.verification.aggregate import (
     aggregate_claim_verification,
 )
+from nummaria_veritas.verification.config import (
+    FULL_VERIFICATION_CONFIG,
+    VerificationConfig,
+)
 from nummaria_veritas.verification.engine import verify_atomic_claim
 
 
@@ -15,6 +19,7 @@ def verify_claim(
     claim: Claim,
     atomic_evidence: list[AtomicEvidenceBundle],
     assessments_by_atomic_claim: dict[str, list[EvidenceAssessment]],
+    config: VerificationConfig = FULL_VERIFICATION_CONFIG,
 ) -> ClaimVerification:
     atomic_results = []
 
@@ -30,6 +35,7 @@ def verify_claim(
             claim=claim,
             atomic_claim=atomic_claim,
             assessments=assessments,
+            config=config,
         )
 
         atomic_results.append(atomic_result)

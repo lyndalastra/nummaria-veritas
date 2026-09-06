@@ -200,6 +200,7 @@ class ClaimVerification(BaseModel):
 
 class EvidenceStance(str, Enum):
     SUPPORTS = "supports"
+    PARTIALLY_SUPPORTS = "partially_supports"
     CONTRADICTS = "contradicts"
     NEUTRAL = "neutral"
 

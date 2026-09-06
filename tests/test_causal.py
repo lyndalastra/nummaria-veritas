@@ -101,3 +101,29 @@ def test_unsupported_causal_claim_is_flagged() -> None:
     )
 
     assert issues == [ClaimIssue.CAUSAL_OVERCLAIM]
+
+
+def test_partial_claim_support_does_not_establish_causality() -> None:
+    atomic_claim = _make_atomic_claim(
+        is_causal=True,
+    )
+
+    evidence = _make_evidence()
+
+    assessments = [
+        EvidenceAssessment(
+            evidence=evidence,
+            stance=EvidenceStance.PARTIALLY_SUPPORTS,
+            explanation=(
+                "The evidence supports the underlying facts but does not "
+                "establish the asserted causal relationship."
+            ),
+        )
+    ]
+
+    issues = check_causal_overclaim(
+        atomic_claim=atomic_claim,
+        assessments=assessments,
+    )
+
+    assert issues == [ClaimIssue.CAUSAL_OVERCLAIM]
