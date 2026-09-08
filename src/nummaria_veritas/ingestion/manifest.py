@@ -1,3 +1,5 @@
+"""Load and validate the financial document manifest."""
+
 from pathlib import Path
 
 import yaml

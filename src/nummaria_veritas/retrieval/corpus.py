@@ -1,3 +1,5 @@
+"""Load and filter the processed evidence corpus by point-in-time eligibility."""
+
 import json
 from datetime import date
 from pathlib import Path

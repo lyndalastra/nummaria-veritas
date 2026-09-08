@@ -1,3 +1,5 @@
+"""Resolve benchmark evidence interventions against the processed corpus."""
+
 from nummaria_veritas.models import (
     BenchmarkClaim,
     EvidenceResult,

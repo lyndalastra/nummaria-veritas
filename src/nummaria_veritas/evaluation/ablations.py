@@ -1,3 +1,5 @@
+"""Define independently switchable verification ablations."""
+
 from dataclasses import dataclass
 
 from nummaria_veritas.verification.config import VerificationConfig

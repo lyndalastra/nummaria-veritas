@@ -1,3 +1,5 @@
+"""Provide deterministic claim decomposition from registered decompositions."""
+
 from nummaria_veritas.decomposition.base import ClaimDecomposer
 from nummaria_veritas.models import Claim, ClaimDecomposition
 

@@ -1,3 +1,5 @@
+"""Provide deterministic evidence stance assessments for registered cases."""
+
 from nummaria_veritas.models import (
     AtomicClaim,
     EvidenceAssessment,

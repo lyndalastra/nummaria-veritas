@@ -1,3 +1,5 @@
+"""Build and query the LSA dense-retrieval baseline."""
+
 from dataclasses import dataclass
 from datetime import date
 
@@ -23,6 +25,8 @@ def build_dense_index(
     *,
     n_components: int = 256,
 ) -> DenseIndex:
+    """Build the LSA retrieval index for an ingested evidence corpus."""
+
     if not chunks:
         raise ValueError("Cannot build a dense index from an empty corpus.")
 

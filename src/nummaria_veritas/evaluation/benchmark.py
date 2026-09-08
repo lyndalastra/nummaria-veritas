@@ -1,3 +1,5 @@
+"""Load and validate hand-labelled benchmark cases."""
+
 import json
 from pathlib import Path
 
@@ -5,6 +7,8 @@ from nummaria_veritas.models import BenchmarkClaim
 
 
 def load_benchmark(path: str | Path) -> list[BenchmarkClaim]:
+    """Load and validate the hand-labelled benchmark cases."""
+
     benchmark_path = Path(path)
 
     claims: list[BenchmarkClaim] = []

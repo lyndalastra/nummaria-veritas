@@ -1,3 +1,5 @@
+"""Measure targeted capability loss under component ablations."""
+
 from collections.abc import Iterable
 from dataclasses import dataclass
 

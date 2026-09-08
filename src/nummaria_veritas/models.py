@@ -1,3 +1,5 @@
+"""Core domain models and verification contracts for Nummaria Veritas."""
+
 from datetime import date
 from enum import Enum
 

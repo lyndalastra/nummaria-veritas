@@ -1,3 +1,5 @@
+"""Assess evidence independence using provenance-based clustering."""
+
 from dataclasses import dataclass
 from datetime import date
 
@@ -33,6 +35,7 @@ def assess_evidence_independence(
         tuple[str, str, date],
         list[EvidenceResult],
     ] = {}
+    """Cluster supporting evidence by provenance and detect redundancy."""
 
     for item in evidence:
         provenance_key = (

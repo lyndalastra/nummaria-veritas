@@ -1,3 +1,5 @@
+"""Coordinate atomic verification and parent-claim aggregation."""
+
 from nummaria_veritas.models import (
     AtomicEvidenceBundle,
     Claim,
@@ -21,6 +23,8 @@ def verify_claim(
     assessments_by_atomic_claim: dict[str, list[EvidenceAssessment]],
     config: VerificationConfig = FULL_VERIFICATION_CONFIG,
 ) -> ClaimVerification:
+    """Verify a parent claim from atomic evidence assessments."""
+
     atomic_results = []
 
     for bundle in atomic_evidence:

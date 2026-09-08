@@ -1,3 +1,5 @@
+"""Define the interface for Claim Delta generation."""
+
 from abc import ABC, abstractmethod
 
 from nummaria_veritas.models import (

@@ -1,3 +1,5 @@
+"""Run targeted component ablation experiments."""
+
 from pathlib import Path
 
 from nummaria_veritas.evaluation.ablation_metrics import (

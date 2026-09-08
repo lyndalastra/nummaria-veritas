@@ -240,4 +240,4 @@ vector_store/
 # Local editor / OS files
 .DS_Store
 .vscode/
-.idea/
+.idea/*.zip

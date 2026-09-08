@@ -1,3 +1,5 @@
+"""Retrieve evidence for already-decomposed atomic claims."""
+
 from dataclasses import dataclass
 
 from nummaria_veritas.models import AtomicClaim, Claim, EvidenceResult

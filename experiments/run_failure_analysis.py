@@ -1,3 +1,5 @@
+"""Run failure analysis over perturbation-invariance baseline results."""
+
 from collections import Counter
 from collections.abc import Hashable
 

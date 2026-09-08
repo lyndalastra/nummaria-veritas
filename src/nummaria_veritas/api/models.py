@@ -1,3 +1,5 @@
+"""Define request and response models for the verification API."""
+
 from datetime import date
 
 from pydantic import BaseModel, Field

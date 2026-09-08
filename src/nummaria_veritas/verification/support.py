@@ -1,3 +1,5 @@
+"""Define the interface for semantic evidence stance assessment."""
+
 from abc import ABC, abstractmethod
 
 from nummaria_veritas.models import (
@@ -8,6 +10,8 @@ from nummaria_veritas.models import (
 
 
 class EvidenceAssessor(ABC):
+    """Interface for assigning semantic stance to retrieved evidence."""
+
     @abstractmethod
     def assess(
         self,

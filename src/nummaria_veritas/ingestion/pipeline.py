@@ -1,3 +1,5 @@
+"""Build the processed evidence corpus from manifest documents."""
+
 import json
 from pathlib import Path
 

@@ -1,3 +1,5 @@
+"""Verify atomic claims against assessed evidence."""
+
 from nummaria_veritas.evidence.independence import (
     EvidenceIndependenceResult,
     assess_evidence_independence,
@@ -34,6 +36,8 @@ def verify_atomic_claim(
     assessments: list[EvidenceAssessment],
     config: VerificationConfig = FULL_VERIFICATION_CONFIG,
 ) -> AtomicVerificationResult:
+    """Verify one atomic claim against its assessed evidence."""
+
     all_evidence = [assessment.evidence for assessment in assessments]
 
     if config.check_temporal_validity:

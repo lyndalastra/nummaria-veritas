@@ -1,3 +1,5 @@
+"""Run the perturbation-invariance baseline experiment."""
+
 from pathlib import Path
 
 from nummaria_veritas.evaluation.benchmark import load_benchmark

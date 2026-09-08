@@ -1,3 +1,5 @@
+"""Chunk extracted pages while preserving document and page provenance."""
+
 import re
 
 from nummaria_veritas.models import Chunk, Page

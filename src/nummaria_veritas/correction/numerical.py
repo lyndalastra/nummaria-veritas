@@ -1,3 +1,5 @@
+"""Generate constrained numerical Claim Delta corrections."""
+
 from nummaria_veritas.models import (
     Claim,
     ClaimDelta,
@@ -18,6 +20,8 @@ def generate_numerical_claim_delta(
     verification: ClaimVerification,
     evidence: list[EvidenceResult],
 ) -> ClaimDelta | None:
+    """Generate a minimal numerical correction when a unique replacement exists."""
+
     if ClaimIssue.NUMERICAL_INCONSISTENCY not in verification.claim_issues:
         return None
 

@@ -71,6 +71,8 @@ def evaluate_benchmark(
     verifications_by_claim: Mapping[str, ClaimVerification],
     deltas_by_claim: Mapping[str, ClaimDelta | None] | None = None,
 ) -> BenchmarkMetrics:
+    """Compare predicted benchmark outputs with their gold verification state."""
+
     if not claims:
         raise ValueError("Cannot evaluate an empty benchmark.")
 

@@ -1,3 +1,5 @@
+"""Provide deterministic Claim Delta generation from registered corrections."""
+
 from nummaria_veritas.correction.base import ClaimDeltaGenerator
 from nummaria_veritas.models import (
     Claim,

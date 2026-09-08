@@ -1,3 +1,5 @@
+"""Build the lexical TF-IDF retrieval index."""
+
 from dataclasses import dataclass
 
 from scipy.sparse import csr_matrix

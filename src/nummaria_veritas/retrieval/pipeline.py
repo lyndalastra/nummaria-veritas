@@ -1,3 +1,5 @@
+"""Coordinate claim decomposition and point-in-time evidence retrieval."""
+
 from nummaria_veritas.decomposition.base import ClaimDecomposer
 from nummaria_veritas.models import (
     AtomicEvidenceBundle,
@@ -14,6 +16,8 @@ def retrieve_evidence_for_claim(
     index: DenseIndex,
     top_k: int = 5,
 ) -> ClaimEvidenceBundle:
+    """Decompose a claim and retrieve point-in-time evidence for each proposition."""
+
     decomposition = decomposer.decompose(claim)
 
     atomic_evidence = [

@@ -1,3 +1,5 @@
+"""Expose the Nummaria Veritas verification engine through FastAPI."""
+
 import logging
 
 from fastapi import FastAPI
