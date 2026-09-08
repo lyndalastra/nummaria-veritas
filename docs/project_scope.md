@@ -8,13 +8,13 @@ The core research question is:
 
 > **Given the information legitimately available at the time, does this evidence actually justify this claim as stated?**
 
-Verification is not treated as a binary retrieval problem. The framework should make explicit:
+Verification is not treated as a binary retrieval problem. The framework makes explicit:
 
 - what evidence is admissible;
 - what part of a claim survives;
 - what fails;
 - whether the failure belongs to the claim or the evidence;
-- and what minimum semantic correction would restore defensibility.
+- what minimum semantic correction would restore defensibility.
 
 ---
 
@@ -32,10 +32,9 @@ A system may retrieve genuine documents, correct entities, plausible values and 
 - periods, entities or scopes are mismatched;
 - guidance is represented as realised fact;
 - supported facts are transformed into an unsupported causal relationship;
-- a later disclosure changes the interpretation of earlier information;
 - or a necessary dependency in a reasoning chain is absent.
 
-Nummaria Veritas therefore evaluates the integrity of the **evidence-to-claim relationship**, rather than treating retrieval similarity as proof.
+Nummaria Veritas evaluates the integrity of the **evidence-to-claim relationship**, rather than treating retrieval similarity as proof.
 
 ---
 
@@ -45,21 +44,28 @@ Nummaria Veritas therefore evaluates the integrity of the **evidence-to-claim re
 
 Evidence used to verify a claim must have been available on or before the claim's `as_of_date`.
 
-Temporal admissibility should be enforced as early as possible. In retrieval, future evidence is filtered before ranking so that later disclosures cannot improve historical evidence selection.
+Temporal admissibility is enforced before ranking so that later disclosures cannot improve historical evidence selection.
 
 ### 2. Evidence independence
 
 Multiple documents do not necessarily constitute multiple independent observations.
 
-Evidence provenance must be preserved so that apparent corroboration can be distinguished from repeated or derivative support.
+Evidence provenance is preserved so that apparent corroboration can be distinguished from repeated or derivative support.
 
-The current MVP uses deterministic provenance clustering. More sophisticated evidence genealogy remains a later extension.
+The current MVP uses deterministic provenance clustering based on document metadata. Richer modelling of evidence lineage or document relationships is a later extension.
 
 ### 3. Numerical consistency
 
-Numbers, directions of change, percentages, currencies, scales and comparisons must be compatible with the underlying evidence.
+Financial values must be compatible with the underlying evidence.
 
-Numerical equality alone is insufficient when representation differs materially.
+The numerical layer preserves distinctions such as:
+
+- percentages;
+- currencies;
+- scale;
+- compatible numerical representations.
+
+Numerical equality alone is not always sufficient. Two values can look similar while referring to incompatible representations or contexts.
 
 ### 4. Representational integrity
 
@@ -74,7 +80,7 @@ Relevant distinctions include:
 - realised performance vs guidance;
 - observation vs causal interpretation.
 
-Representational integrity is broader than the set of currently standalone verifier modules. Some representational failures are presently encoded through benchmark expectations and the issue ontology.
+The benchmark taxonomy covers more representational failures than the current set of standalone verifier mechanisms.
 
 ### 5. Compositional validity
 
@@ -82,7 +88,7 @@ Correct components do not guarantee a correct claim.
 
 A claim may contain individually supported facts while asserting a relationship that does not follow from them.
 
-The framework should therefore support reasoning over:
+Relevant reasoning structures include:
 
 - dependencies;
 - contextual interpretation;
@@ -91,11 +97,11 @@ The framework should therefore support reasoning over:
 - interacting constraints;
 - inferential relationships.
 
-A missing or invalid intermediate dependency may invalidate the complete claim even when the remaining evidence is correct.
+A missing or invalid dependency can invalidate the complete claim even when the remaining facts are correct.
 
 ### 6. Minimum Claim Delta (Δ)
 
-When a claim is not defensible, Nummaria Veritas should represent the smallest semantic change required to restore defensibility.
+When a claim is not defensible, a Claim Delta represents the smallest semantic change required to restore defensibility.
 
 A Claim Delta may conceptually involve changing:
 
@@ -106,11 +112,13 @@ A Claim Delta may conceptually involve changing:
 - temporal language;
 - certainty;
 - causal language;
-- or an unsupported inferential relationship.
+- an unsupported inferential relationship.
 
-The current automatic generator implements constrained numerical correction. The benchmark contains gold revised claims for a broader range of perturbations so that future correction mechanisms can be evaluated against an explicit target.
+Automatic Claim Delta generation is currently limited to constrained numerical corrections.
 
-The objective is to preserve as much valid information as possible rather than unnecessarily rewriting the entire claim.
+The benchmark also stores gold revised claims for broader perturbation types so that future correction mechanisms have an explicit evaluation target.
+
+The aim is to preserve valid parts of the original claim rather than rewrite it unnecessarily.
 
 ---
 
@@ -126,8 +134,6 @@ unsupported_claim
 invalid_evidence
 insufficient_evidence
 ```
-
-These verdicts separate proposition failure from evidence failure.
 
 Examples:
 
@@ -149,7 +155,7 @@ neutral
 
 `partially_supports` is distinct from `neutral`.
 
-For example, evidence may establish both financial facts in a causal statement while failing to establish the asserted causal relationship. Such evidence is substantively supportive of part of the claim rather than neutral to it.
+For example, evidence may establish both financial facts in a causal statement while failing to establish the asserted causal relationship. In that case, the evidence supports part of the proposition rather than being neutral to it.
 
 ---
 
@@ -157,40 +163,57 @@ For example, evidence may establish both financial facts in a causal statement w
 
 ### Claim-level issues
 
-```text
-anachronistic_claim
-numerical_inconsistency
-metric_mismatch
-period_mismatch
-entity_scope_mismatch
-forecast_as_fact
-causal_overclaim
-compositional_invalidity
-```
+`anachronistic_claim`  
+The claim could not legitimately have been made at its evaluation time because the required information was not yet available.
+
+`numerical_inconsistency`  
+A numerical value in the claim is incompatible with the admissible evidence.
+
+`metric_mismatch`  
+The claim and evidence refer to different financial metrics or incompatible metric definitions.
+
+`period_mismatch`  
+The claim and evidence refer to different reporting periods.
+
+`entity_scope_mismatch`  
+The claim asserts the wrong entity, segment, geography or reporting scope.
+
+`forecast_as_fact`  
+Guidance, expectation or forecast information is represented as realised fact.
+
+`causal_overclaim`  
+The claim asserts a causal relationship that the admissible evidence does not establish.
+
+`compositional_invalidity`  
+The individual components may be supported, but the relationship or conclusion formed from them is not.
 
 ### Evidence-level issues
 
-```text
-temporal_leakage
-evidence_redundancy
-contradictory_evidence
-scope_mismatch
-```
+`temporal_leakage`  
+Evidence published after the claim's `as_of_date` is used or supplied for verification.
 
-The distinction is intentional.
+`evidence_redundancy`  
+Multiple supporting items do not represent independent evidence because they share the same underlying provenance.
+
+`contradictory_evidence`  
+Admissible evidence contains information that conflicts with the claim.
+
+`scope_mismatch`  
+The claim may be valid, but the supplied evidence comes from an incompatible entity, segment, geography or reporting scope.
+
+Claim issues describe problems with **what the claim asserts**. Evidence issues describe problems with **the evidence used to support it**.
 
 For example:
 
-- an incorrect entity scope asserted by the claim is a claim issue;
-- a valid Group-level claim supported only by segment-level evidence is an evidence issue.
-
-A supported claim may also carry an evidence issue such as redundancy without becoming unsupported.
+- an incorrect entity scope asserted by the claim is `entity_scope_mismatch`;
+- a valid Group-level claim paired only with segment-level evidence is `scope_mismatch`;
+- a supported claim can still carry `evidence_redundancy` without becoming unsupported.
 
 ---
 
 ## Current Executable Verification Mechanisms
 
-The MVP currently exposes four independently switchable verification mechanisms:
+The MVP currently exposes four independently switchable verification mechanisms.
 
 ### Temporal validity
 
@@ -198,29 +221,29 @@ Future evidence is excluded from admissible evidence.
 
 ### Numerical consistency
 
-Financial numerical values are extracted and compared while preserving relevant representation such as percentage, currency and scale.
+Financial numerical values are extracted and compared while preserving percentage, currency and scale semantics.
 
 ### Causal overclaim
 
-A causal atomic proposition is flagged when the admissible evidence does not establish the asserted causal relationship.
+A causal atomic proposition is flagged when admissible evidence does not establish the asserted causal relationship.
 
-Full semantic support is required to establish the causal relation; partial support of the underlying facts is not sufficient.
+Full semantic support is required to establish the causal relation. Partial support of the underlying facts is not enough.
 
 ### Evidence independence
 
 Supporting evidence is grouped by provenance to distinguish raw citation count from independent evidence count.
 
-These four mechanisms are explicitly configurable so that their contribution can be tested through component ablations.
+These four mechanisms are configurable so their contribution can be tested through component ablations.
 
-Other benchmark dimensions should not be described as standalone verifier modules until a corresponding executable boundary exists.
+Other benchmark dimensions are not treated as standalone verifier modules unless an executable boundary exists for them.
 
 ---
 
 ## Benchmark Philosophy
 
-The benchmark begins with deterministic financial claims and progressively introduces cases where successful retrieval is insufficient.
+The benchmark starts with base financial claims and progressively introduces cases where successful retrieval is not enough.
 
-The intended progression is:
+The progression is:
 
 ```text
 Atomic → Contextual → Compositional → Adversarial → Minimal Δ
@@ -248,7 +271,7 @@ Claims requiring interpretation of:
 
 ### Tier 3 — Compositional
 
-Claims requiring multiple pieces of evidence whose relationships matter:
+Claims involving multiple pieces of evidence whose relationships matter:
 
 - dependency chains;
 - interacting constraints;
@@ -262,11 +285,11 @@ A missing intermediate fact may invalidate the complete claim.
 
 Claims where most or all local facts are correct but the global conclusion is not.
 
-These cases test whether the system distinguishes factual consistency from inferential validity.
+These cases test whether factual consistency is being confused with inferential validity.
 
 ### Tier 5 — Minimal Delta
 
-Cases designed to evaluate whether the framework can identify the smallest semantic modification required to restore defensibility.
+Cases used to evaluate the smallest semantic modification required to restore defensibility.
 
 ---
 
@@ -299,23 +322,25 @@ evidence
 evaluation_context
 ```
 
-The perturbation ID is a human-readable checksum. System behaviour must be derived from explicit benchmark fields rather than parsing IDs.
+Perturbation IDs are human-readable checksums. System behaviour comes from explicit benchmark fields rather than parsing the ID.
 
-Contradiction is not itself treated as a perturbation type. Contradiction is an observed relationship between a claim and appropriately aligned evidence.
+Contradiction is not a perturbation type. It is an observed relationship between a claim and appropriately aligned evidence.
 
 ---
 
 ## Current Benchmark
 
-The MVP corpus contains public financial reporting materials from:
+The corpus contains public financial reporting materials from:
 
-- HSBC;
-- AstraZeneca.
+**Issuers**
 
-Current periods include:
+- HSBC
+- AstraZeneca
 
-- FY2024;
-- H1 2025.
+**Reporting periods**
+
+- FY2024
+- H1 2025
 
 The processed corpus preserves:
 
@@ -328,9 +353,7 @@ The processed corpus preserves:
 - chunk identity;
 - chunk text.
 
-The current adversarial layer contains eight perturbations across claim, evidence and evaluation-context targets.
-
-These cases include:
+The current adversarial layer contains eight perturbations across claim, evidence and evaluation-context targets:
 
 - temporal invalidation;
 - numerical contradiction;
@@ -345,15 +368,15 @@ These cases include:
 
 ## Reasoning Patterns
 
-The benchmark is designed to test reasoning structures that cannot be reduced to surface similarity.
+The benchmark targets reasoning structures that cannot be reduced to surface similarity.
 
 ### Constraint propagation
 
-A conclusion is valid only when multiple constraints hold simultaneously.
+A conclusion is valid only when the relevant constraints hold simultaneously.
 
 ### Dependency chains
 
-Later conclusions depend on earlier interpretations. Losing one link can invalidate the chain.
+Later conclusions may depend on earlier interpretations. Losing one link can invalidate the chain.
 
 ### Context-sensitive interpretation
 
@@ -361,7 +384,7 @@ Identical-looking values can have different meanings under different reporting d
 
 ### Precedence
 
-When multiple valid rules or disclosures apply, the system must determine which governs the claim at the relevant point in time.
+When several disclosures or rules are relevant, the correct interpretation may depend on which applies at the claim's evaluation point.
 
 ### Boundary sensitivity
 
@@ -371,7 +394,7 @@ Evidence may be valid within one period, entity, segment or definition but inval
 
 Every retrieved component may be individually true while the final inference remains unsupported.
 
-These patterns are intended to prevent the benchmark from degenerating into conventional financial question answering.
+These patterns keep the benchmark focused on evidence integrity rather than conventional financial question answering.
 
 ---
 
@@ -379,9 +402,7 @@ These patterns are intended to prevent the benchmark from degenerating into conv
 
 ### Perturbation-invariance baseline
 
-The naïve baseline assigns each perturbed case the verification state of its unperturbed source claim.
-
-This tests the hypothesis that evidence integrity cannot be captured by simply preserving the source judgment across superficially related cases.
+The baseline assigns each perturbed case the verification state of its unperturbed source claim.
 
 Current result:
 
@@ -390,27 +411,29 @@ Full case exact match: 12.5%
 Failure rate:          87.5%
 ```
 
+Only the representation perturbation preserves the complete source judgment.
+
 ### Component ablations
 
-Each independently switchable verification mechanism is disabled while the corresponding target phenomenon is held fixed.
+Each independently switchable verification mechanism is disabled while its corresponding target phenomenon is held fixed.
 
 The experiment measures:
 
 - full-system targeted detection;
-- successful disappearance of that capability after ablation.
+- disappearance of the targeted capability after ablation.
 
-Current four-mechanism result:
+Current result:
 
 ```text
 Full-system detection: 100% for each targeted mechanism
 Ablation success:      100% for each targeted mechanism
 ```
 
-These are component-sensitivity results over targeted cases, not estimates of general benchmark accuracy.
+Each current ablation is evaluated on its corresponding targeted benchmark case, so these results measure mechanism attribution rather than general benchmark accuracy.
 
 ### Failure analysis
 
-Failure analysis operates over the evaluation contract rather than introducing a second manually assigned failure taxonomy.
+Failure analysis uses the existing verification contract.
 
 A failed benchmark case can differ along:
 
@@ -421,7 +444,7 @@ evidence_issues
 correction
 ```
 
-This allows distinct perturbations to produce different empirical failure signatures.
+Different perturbations can therefore produce different failure signatures without introducing a second manually defined failure taxonomy.
 
 ---
 
@@ -439,7 +462,7 @@ The MVP demonstrates a pipeline that can:
 8. produce interpretable atomic and parent verdicts;
 9. represent and validate Claim Delta corrections;
 10. automatically generate constrained numerical Claim Deltas;
-11. evaluate outputs against a curated golden benchmark;
+11. evaluate outputs against a curated gold benchmark;
 12. run adversarial baselines, ablations and failure analysis;
 13. expose verification through a FastAPI service;
 14. run reproducibly through a locked Python environment and Docker image.
@@ -448,19 +471,17 @@ The MVP demonstrates a pipeline that can:
 
 ## Current Boundaries
 
-The MVP deliberately does not claim to solve every layer autonomously.
+Nummaria Veritas is a research MVP.
 
 Current limitations include:
 
-- semantic stance is supplied explicitly rather than inferred by an autonomous language model;
-- dense retrieval uses LSA as a reproducible baseline;
-- evidence independence uses deterministic provenance clustering;
-- the standalone verifier mechanism set is smaller than the full benchmark ontology;
-- automatic Claim Delta generation is currently focused on constrained numerical corrections;
-- the benchmark is small and hand-labelled;
-- the financial corpus covers a limited number of issuers and reporting periods.
-
-These boundaries are intended to keep the experimental contracts explicit and testable while the system grows.
+- semantic evidence stance is supplied explicitly rather than inferred autonomously;
+- dense retrieval currently uses LSA rather than a neural embedding model;
+- evidence independence relies on deterministic provenance clustering rather than richer evidence-lineage modelling;
+- only four failure dimensions currently have standalone, independently ablatable verifier mechanisms: temporal validity, numerical consistency, causal overclaim and evidence independence;
+- automatic Claim Delta generation is currently limited to constrained numerical corrections;
+- the adversarial benchmark is small and hand-labelled, so the evaluation provides targeted coverage rather than broad statistical validation;
+- the financial corpus covers two issuers and a limited set of reporting periods.
 
 ---
 
@@ -475,7 +496,7 @@ Nummaria Veritas is **not**:
 
 Successful retrieval of a passage containing matching entities, terminology or numbers is not sufficient evidence that a financial claim is defensible.
 
-The project is specifically concerned with the integrity of the path:
+The project is concerned with the integrity of the path:
 
 ```text
 claim → evidence → admissibility → relationship → verdict → correction
